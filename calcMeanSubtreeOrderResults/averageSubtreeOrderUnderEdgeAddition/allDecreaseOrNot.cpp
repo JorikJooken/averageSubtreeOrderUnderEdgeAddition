@@ -16,7 +16,7 @@ int main()
     int parity=0;
     long long x;
     long long y;
-    // reads triples of lines, finds the (x,y) pair with minimum y and checks if x2/y2<=x/y for all pairs
+    // reads triples of lines, finds the (x,y) pair with minimum y and counts 1) pairs for which x2/y2<=x/y and 2) pairs for which x2/y2<x/y 
     while(getline(cin,line))
     {
 	if(parity==0)
@@ -39,24 +39,22 @@ int main()
             y=p.second;
         }
     }
-    //cerr << "x and y: " << x << " " << y << endl;
-    bool ok=true;
     int decreaseCtr=0;
+    int strictDecreaseCtr=0;
     for(pair<long long, long long> p : allPairs)
     {
         long long x2=p.first;
         long long y2=p.second;
-        //cerr << x2 << " " << y2 << endl;
-        if(!(x2*y<=x*y2))
-        {
-            ok=false;
-        }
-        else
+        if(x2*y<=x*y2)
         {
             decreaseCtr++;
         }
+        if(x2*y<x*y2)
+        {
+            strictDecreaseCtr++;
+        }
     }
-    cout << "All decreased or not: " << ok << endl;
-    cout << "It decreased " << decreaseCtr << " times out of " << allPairs.size() << " pairwise non-isomorphic graphs" << endl;
+    cout << "Average order non-strictly decreased " << decreaseCtr << " times out of " << allPairs.size() << " pairwise non-isomorphic graphs" << endl;
+    cout << "Average order strictly decreased " << strictDecreaseCtr << " times out of " << allPairs.size() << " pairwise non-isomorphic graphs" << endl;
     return 0;
 }
